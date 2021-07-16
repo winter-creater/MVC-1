@@ -11303,13 +11303,20 @@ var _jquery = _interopRequireDefault(require("jquery"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// 初始化html
+var html = "\n<section id=\"app1\">\n<div class=\"output\">\n  <span id=\"number\">100</span>\n</div>\n\n<div class=\"actions\">\n  <button id=\"btnAdd\">+1</button>\n  <button id=\"btnMinus\">-1</button>\n  <button id=\"btnMul\">x2</button>\n  <button id=\"btnDivide\">\xF72</button>\n</div>\n</section>\n";
+var $element = (0, _jquery.default)(html).prependTo((0, _jquery.default)('body>.page')); // 寻找重要的元素
+
 var $button1 = (0, _jquery.default)('#btnAdd');
 var $button2 = (0, _jquery.default)('#btnMinus');
 var $button3 = (0, _jquery.default)('#btnMul');
 var $button4 = (0, _jquery.default)('#btnDivide');
-var $number = (0, _jquery.default)('#number');
-var n = localStorage.getItem('n');
-$number.text(n || 100);
+var $number = (0, _jquery.default)('#number'); // 初始化数据
+
+var n = localStorage.getItem('n'); // 将数据渲染到页面
+
+$number.text(n || 100); // 绑定鼠标事件
+
 $button1.on('click', function () {
   var n = parseInt($number.text()); //获取html文件的100
 
@@ -11352,17 +11359,23 @@ var _jquery = _interopRequireDefault(require("jquery"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var html = "\n<section id=\"app2\">\n<ol class=\"tab-bar\">\n  <li class=\"selected\"><span>11111111</span></li>\n  <li><span>22222222</span></li>\n</ol>\n<ol class=\"tab-content\">\n  <li class=\"active\">\u5185\u5BB91</li>\n  <li>\u5185\u5BB92</li>\n</ol>\n</section>\n";
+var $element = (0, _jquery.default)(html).appendTo((0, _jquery.default)('body>.page'));
 var $tabBar = (0, _jquery.default)('#app2 .tab-bar');
 var $tabContent = (0, _jquery.default)('#app2 .tab-content');
+var localKey = 'app2.index';
+var index = localStorage.getItem(localKey) || 0;
 $tabBar.on('click', "li", function (e) {
   // console.log(e.currentTarget);
   // console.log(e.target);
   var $li = (0, _jquery.default)(e.currentTarget);
   var index = $li.index();
+  localStorage.setItem(localKey, index);
   console.log(index);
   $tabContent.children().eq(index).addClass('active').siblings().removeClass('active');
   $li.addClass('selected').siblings().removeClass('selected');
 });
+$tabBar.children().eq(index).trigger('click');
 },{"./app2.css":"app2.css","jquery":"../node_modules/jquery/dist/jquery.js"}],"app3.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
@@ -11377,9 +11390,28 @@ var _jquery = _interopRequireDefault(require("jquery"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var html = "\n<section id=\"app3\">\n<div class=\"square\"></div>\n</section>\n";
+var $element = (0, _jquery.default)(html).appendTo((0, _jquery.default)('body>.page'));
 var $square = (0, _jquery.default)('#app3 .square');
+var localKey = 'app3.active'; //yes no undefined
+
+var active = localStorage.getItem(localKey) === 'yes'; //localStorage.getItem(localKey) === 'yes' ? true : false  简化： localStorage.getItem(localKey) === 'yes'
+// if (active) {
+//     $square.addClass('active')
+// } else {
+//     $square.removeClass('active')
+// }  //等同 $square.toggleClass('active', active)
+
+$square.toggleClass('active', active);
 $square.on('click', function () {
-  $square.toggleClass('active');
+  // $square.toggleClass('active')
+  if ($square.hasClass('active')) {
+    $square.removeClass('active');
+    localStorage.setItem(localKey, 'no');
+  } else {
+    $square.addClass('active');
+    localStorage.setItem(localKey, 'yes');
+  }
 });
 },{"./app3.css":"app3.css","jquery":"../node_modules/jquery/dist/jquery.js"}],"app4.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
@@ -11395,6 +11427,8 @@ var _jquery = _interopRequireDefault(require("jquery"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var html = "\n<section id=\"app4\">\n<div class=\"circle\"></div>\n</section>\n";
+var $element = (0, _jquery.default)(html).appendTo((0, _jquery.default)('body >.page'));
 var $circle = (0, _jquery.default)('#app4 .circle');
 $circle.on('mouseenter', function () {
   $circle.addClass('active');
@@ -11415,6 +11449,9 @@ require("./app2.js");
 require("./app3.js");
 
 require("./app4.js");
+
+var img = document.querySelector('.image');
+img.remove();
 },{"./reset.css":"reset.css","./global.css":"global.css","./app1.js":"app1.js","./app2.js":"app2.js","./app3.js":"app3.js","./app4.js":"app4.js"}],"C:/Users/Administrator/AppData/Local/Yarn/Data/global/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -11443,7 +11480,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49749" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53113" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
